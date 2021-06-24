@@ -1,22 +1,22 @@
 module.exports = (api) => {
-  const isProduction = api.env('production');
+  const isProduction = api.env("production");
   api.cache(true);
   const presets = [
     [
-      '@babel/preset-env',
+      "@babel/preset-env",
       {
         targets: {
-          chrome: '79',
-          ie: '11',
-          firefox: '72',
-          safari: '13',
+          chrome: "79",
+          ie: "11",
+          firefox: "72",
+          safari: "13",
         },
-        useBuiltIns: 'entry',
+        useBuiltIns: "entry",
         corejs: 3,
       },
     ],
     [
-      '@babel/preset-react',
+      "@babel/preset-react",
       {
         development: !isProduction,
       },
@@ -24,7 +24,20 @@ module.exports = (api) => {
   ];
   //@babel/preset-envというパッケージは、トランスパイルする時にどの環境で動かすようにトランスパイルするかを設定するものです。ここでは、Chromeのバージョン79,IEのバージョン11,FireFoxのバージョン72, Safariのバージョン13で動作するようにトランスパイルするようにオプションを設定しています。
 
-  const plugins = [];
+  const plugins = [
+    [
+      "babel-plugin-styled-components",
+      isProduction
+        ? {
+            displayName: false,
+            fileName: false,
+            pure: true,
+          }
+        : {
+            minify: false,
+          },
+    ],
+  ];
 
   return {
     presets,
